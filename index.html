@@ -139,8 +139,13 @@
     $(document).ready(function() {
       new DomEventHandlers().init();
 
-      const serviceUri = "https://sheetsapi.azurewebsites.net/Sheets.php";
-      // const devServiceUri = "http://localhost:80/google-sheets-api/Sheets.php"
+      const baseUri = "https://sheetsapi.azurewebsites.net/Sheets.php";
+      //const baseUri = "http://localhost:80/google-sheets-api/Sheets.php";
+      const sheetId = "1besYmYvgpk6ZWrhw8k3ys8OlkDj4s3A1_Y3oromVQBE";
+      const sheetName = "Pantries";
+      const sheetRange = "A:L";
+
+      const serviceUri = `${baseUri}?sheetId=${sheetId}&sheetName=${sheetName}&sheetRange=${sheetRange}`;
 
       const map = new DefaultMap('main-map', [45.1690993, -69.2568189], 7);
       const pantryMapper = new PantryMapper(serviceUri, map);
