@@ -145,25 +145,40 @@
       const map = new DefaultMap('main-map', [45.1690993, -69.2568189], 7);
       const pantryMapper = new PantryMapper(serviceUri, map);
       
-      const dataLoadedCallback = () => {
-        let townOptions = [...new Set(pantryMapper.data.map(d => d.Town))].sort();
-        let countyOptions = [...new Set(pantryMapper.data.map(d => d.County))].sort();
-        let categoryOptions = [...new Set(pantryMapper.data.map(d => d.Category))].sort();
+      function setSelectOptions(domId, optionSet) {
+        $(`#${domId}`).empty();
         const blankOption = "<option selected value=''>All</option>";
-        $("#town-select").append(blankOption);
-        $("#county-select").append(blankOption);
-        $("#category-select").append(blankOption);
-        townOptions.forEach(t => $("#town-select").append(`<option value="${t}">${t}</option>`));
-        countyOptions.forEach(c => $("#county-select").append(`<option value="${c}">${c}</option>`));
-        categoryOptions.forEach(c => $("#category-select").append(`<option value="${c}">${c}</option>`));
+        $(`#${domId}`).append(blankOption);
+        optionSet.forEach(o => $(`#${domId}`).append(`<option value="${o}">${o}</option>`));
+      }
+      
+      const dataLoadedCallback = () => {
+        const townOptions = [...new Set(pantryMapper.data.map(d => d.Town))].sort();
+        const countyOptions = [...new Set(pantryMapper.data.map(d => d.County))].sort();
+        const categoryOptions = [...new Set(pantryMapper.data.map(d => d.Category))].sort();
+        setSelectOptions("town-select", townOptions);
+        setSelectOptions("county-select", countyOptions);
+        setSelectOptions("category-select", categoryOptions);
       }
       
       pantryMapper.start(dataLoadedCallback);
 
       //filter callbacks
       $("#category-select").change((e) => pantryMapper.setCategoryFilter(e.target.value) );
-      $("#county-select").change((e) => pantryMapper.setCountyFilter(e.target.value) );
       $("#town-select").change((e) => pantryMapper.setTownFilter(e.target.value) );
+      $("#county-select").change((e) => {
+        const selectedCounty = e.target.value;
+        if (selectedCounty.length > 0) {
+          const townOptions = [...new Set(pantryMapper.data.filter(d => d.County === selectedCounty).map(d => d.Town))].sort();
+          setSelectOptions("town-select", townOptions);
+          if (townOptions.indexOf(pantryMapper.townFilter) < 0)
+            this.pantryMapper.townFilter = "";
+        } else {
+          const townOptions = [...new Set(pantryMapper.data.map(d => d.Town))].sort();
+          setSelectOptions("town-select", townOptions);
+        }
+        pantryMapper.setCountyFilter(selectedCounty);
+      });
       
     });
   </script>
