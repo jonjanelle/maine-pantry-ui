@@ -133,28 +133,17 @@
   <script src="js/pantryMapper.js"></script>
   <script src="js/defaultMap.js"></script>
   <script src="js/handlebarsHelpers.js"></script>
+  <script src="js/domEventHandlers.js"></script>
 
   <script>
     $(document).ready(function() {
+      new DomEventHandlers().init();
 
-      // Handle side menu toggles
-      //
-      $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-        e.stopPropagation();
-      });
-      // If mobile toggle when press outsite of side menu
-      $("#page-content-wrapper").click(function(e) {
-        if (window.innerWidth < 768 && !$("#wrapper").hasClass("toggled")) {
-          $("#wrapper").toggleClass("toggled");
-        }
-      });
-      //
-
+      const serviceUri = "https://sheetsapi.azurewebsites.net/Sheets.php";
+      // const devServiceUri = "http://localhost:80/google-sheets-api/Sheets.php"
 
       const map = new DefaultMap('main-map', [45.1690993, -69.2568189], 7);
-      const pantryMapper = new PantryMapper("http://localhost:80/google-sheets-api/Sheets.php", map);
+      const pantryMapper = new PantryMapper(serviceUri, map);
       
       const dataLoadedCallback = () => {
         let townOptions = [...new Set(pantryMapper.data.map(d => d.Town))].sort();
@@ -168,11 +157,12 @@
         countyOptions.forEach(c => $("#county-select").append(`<option value="${c}">${c}</option>`));
         categoryOptions.forEach(c => $("#category-select").append(`<option value="${c}">${c}</option>`));
       }
+      
       pantryMapper.start(dataLoadedCallback);
 
-      //form callbacks
+      //filter callbacks
       $("#category-select").change((e) => pantryMapper.setCategoryFilter(e.target.value) );
-      $("#county-select").change((e) =>  { pantryMapper.setCountyFilter(e.target.value); });
+      $("#county-select").change((e) => pantryMapper.setCountyFilter(e.target.value) );
       $("#town-select").change((e) => pantryMapper.setTownFilter(e.target.value) );
       
     });
