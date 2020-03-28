@@ -3,7 +3,7 @@ class PantryMapper {
         this.apiEndpoint = apiEndpoint;
         this.map = map;
         this.refreshInterval = null;
-        this.intervalDelay = 120000; //Refresh data every x ms
+        this.intervalDelay = 60000; //Refresh data every x ms
         this.data = [];
         this.filteredData = [];
         this._getData = this._getData.bind(this);
@@ -29,9 +29,8 @@ class PantryMapper {
             }      
 
             this.data = markerInfoData;
-            this.filteredData = markerInfoData;
+            this._applyFilters();
             successCallback();
-            this._refreshMapAndSideBar();
         });
     }
 
