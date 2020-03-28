@@ -172,7 +172,7 @@
           const townOptions = [...new Set(pantryMapper.data.filter(d => d.County === selectedCounty).map(d => d.Town))].sort();
           setSelectOptions("town-select", townOptions);
           if (townOptions.indexOf(pantryMapper.townFilter) < 0)
-            this.pantryMapper.townFilter = "";
+            pantryMapper.townFilter = "";
         } else {
           const townOptions = [...new Set(pantryMapper.data.map(d => d.Town))].sort();
           setSelectOptions("town-select", townOptions);
