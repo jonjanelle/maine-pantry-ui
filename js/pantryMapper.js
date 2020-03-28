@@ -15,7 +15,7 @@ class PantryMapper {
     }
 
     _getData(successCallback) {
-        $.get(this.apiEndpoint, (response, status) => {
+        $.get(this.apiEndpoint).done((response, status) => {
             const markerInfoData = JSON.parse(response);
             for (let markerInfo of markerInfoData) {
                 if (markerInfo.Category == "Meal Sites")
