@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Food pantries, shelters, ">
+  <meta name="author" content="Jon">
+
+  <title>Maine Food Support</title>
+  
+  <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="vendor/bootstrap-material/css/bootstrap-material-design.min.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Leaflet and plugins -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
+</head>
+
+<body>
+  <div class="d-flex toggled" id="wrapper">
+  <!-- <div class="d-flex" id="wrapper"> -->
+    <!-- Sidebar -->
+    <div class="border-right shadow-lg" id="sidebar-wrapper">
+      <div class="sidebar-heading"></div>
+      <div id="map-results-list"></div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <nav class="navbar navbar-expand-lg navbar-custom navbar-dark">
+        <button class="btn btn-primary" id="menu-toggle" aria-label="Toggle list view">
+          <i class="material-icons toggle-icon" title="Toggle list view">compare_arrows</i>
+        </button>
+        <div class="navbar-header text-light">Maine Food Support</div>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="main-content">
+        <div class="card main-card">
+          <div class="card-body filter-card">
+            <div class="row">
+              <div class="col-12">
+                <h1 class="header-dark">Find food support services in Maine</h1>
+              </div>
+              <form class="form-inline row col-12">
+                <div class="col-md-4 col-sm-12">
+                  <label class="top-label" for="category-select">Category</label>
+                  <select class="custom-select select-default my-1 mr-sm-2" id="category-select">
+                  </select>
+                </div>
+                <div class="col">
+                  <label class="top-label" for="county-select">County</label>
+                  <select class="custom-select select-default my-1 mr-sm-2" id="county-select">
+                  </select>
+                </div>
+                <div class="col">
+                  <label class="top-label" for="town-select">Town</label>
+                  <select class="custom-select select-default my-1 mr-sm-2" id="town-select">
+                  </select>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div id="main-map"></div>
+        </div>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Left sidebar list item handlebars template -->
+  <script id="pin-list-template" type="text/x-handlebars-template">    
+    <div class="row result-row">
+      {{#arr_empty this}}
+      <div class="no-results-container">
+        <i class="material-icons no-result-icon" title="No results found">cloud_off</i>
+        <div class="no-results-message p-2">
+          No results found
+        </div>
+      </div>
+      {{/arr_empty}}
+      {{#each this}}
+      <div class="result-card row col-12 pt-2 pb-2 pl-1">
+        <div class="col-2 result-row-icon">
+          <i class="material-icons" title="Toggle menu">{{Icon}}</i>
+        </div>
+        <div class="col-md-10 col-sm-12 col-xs-12 result-card-body">
+          {{#if WebLink}}
+            <a href="{{WebLink}}" title="{{WebLink}}" target="_blank" rel="noopener">{{Name}}</a>
+          {{else}}
+            <div>{{Name}}</div>
+          {{/if}}
+          <div class="small">
+            {{Category}} 
+            <span class="text-muted small ml-1">{{Phone}}</span>
+          </div>
+          <div>
+            <small class="text-muted">{{Address}}</small>
+          </div>
+        </div>
+      </div>
+      <hr class="result-divider col-12">
+      {{/each}}                
+    </div>            
+  </script>    
+
+
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor//bootstrap-material/js/bootstrap-material-design.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <script src="js/pantryMapper.js"></script>
+  <script src="js/defaultMap.js"></script>
+  <script src="js/handlebarsHelpers.js"></script>
+
+  <script>
+    $(document).ready(function() {
+
+      // Handle side menu toggles
+      //
+      $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+        e.stopPropagation();
+      });
+      // If mobile toggle when press outsite of side menu
+      $("#page-content-wrapper").click(function(e) {
+        if (window.innerWidth < 768 && !$("#wrapper").hasClass("toggled")) {
+          $("#wrapper").toggleClass("toggled");
+        }
+      });
+      //
+
+
+      const map = new DefaultMap('main-map', [45.1690993, -69.2568189], 7);
+      const pantryMapper = new PantryMapper("http://localhost:80/google-sheets-api/Sheets.php", map);
+      
+      const dataLoadedCallback = () => {
+        let townOptions = [...new Set(pantryMapper.data.map(d => d.Town))].sort();
+        let countyOptions = [...new Set(pantryMapper.data.map(d => d.County))].sort();
+        let categoryOptions = [...new Set(pantryMapper.data.map(d => d.Category))].sort();
+        const blankOption = "<option selected value=''>All</option>";
+        $("#town-select").append(blankOption);
+        $("#county-select").append(blankOption);
+        $("#category-select").append(blankOption);
+        townOptions.forEach(t => $("#town-select").append(`<option value="${t}">${t}</option>`));
+        countyOptions.forEach(c => $("#county-select").append(`<option value="${c}">${c}</option>`));
+        categoryOptions.forEach(c => $("#category-select").append(`<option value="${c}">${c}</option>`));
+      }
+      pantryMapper.start(dataLoadedCallback);
+
+      //form callbacks
+      $("#category-select").change((e) => pantryMapper.setCategoryFilter(e.target.value) );
+      $("#county-select").change((e) =>  { pantryMapper.setCountyFilter(e.target.value); });
+      $("#town-select").change((e) => pantryMapper.setTownFilter(e.target.value) );
+      
+    });
+  </script>
+</body>
+</html>
