@@ -1,32 +1,13 @@
 {
-    "title": "Simple Sidebar",
-    "name": "startbootstrap-simple-sidebar",
+    "title": "Maine Food Support Services",
+    "name": "maine-food-support-services",
     "version": "5.1.1",
     "scripts": {
         "start": "node_modules/.bin/gulp watch"
     },
-    "description": "A simple sidbar navigation HTMl template built with Bootstrap",
-    "keywords": [
-        "css",
-        "sass",
-        "html",
-        "responsive",
-        "theme",
-        "template"
-    ],
-    "homepage": "https://startbootstrap.com/template-overviews/simple-sidebar",
-    "bugs": {
-        "url": "https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/issues",
-        "email": "feedback@startbootstrap.com"
-    },
-    "license": "MIT",
-    "author": "Start Bootstrap",
-    "contributors": [
-        "David Miller (http://davidmiller.io/)"
-    ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/BlackrockDigital/startbootstrap-simple-sidebar.git"
+        "url": "https://github.com/jonjanelle/maine-pantry-ui.git"
     },
     "dependencies": {
         "bootstrap": "4.3.1",
