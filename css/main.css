@@ -106,6 +106,9 @@ body {
 /*  */
 
 @media (max-width: 768px) {
+  .result-card-body {
+    margin-left: 12px;
+  }
   .navbar-header {
     font-size: 1.5rem;
   }
@@ -141,6 +144,10 @@ body {
 }
 
 @media (min-width: 768px) {
+  #filters-toggle, #filters-mobile {
+    display: none;
+  }
+
   #sidebar-wrapper {
     margin-left: 0;
   }
@@ -211,4 +218,38 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
+}
+
+
+/* navbar */
+#nav-mobile {
+  position: fixed;
+  z-index: 999;
+  bottom: 0;
+  width: 100%;
+}
+
+
+/* filters */
+
+#filters-toggle {
+  margin-bottom: 0;
+}
+
+#filters-mobile {
+  position: fixed;
+  background-color: white;
+  width: 100%;
+  padding: 8px;
+  bottom: 54px;
+  z-index: 999;
+  transition: .3s ease-in-out;
+}
+
+#filters-mobile.toggled {
+  bottom: -150px;
+}
+
+.leaflet-bottom {
+  z-index: 998 !important;
 }
