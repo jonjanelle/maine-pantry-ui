@@ -91,6 +91,14 @@ body {
 }
 .toggle-icon {
   font-size: 32px !important;
+  color: orange;
+}
+.toggle-label {
+  display: block; 
+  margin-top: -8px; 
+  color: burlywood;
+  font-size: 8px;
+  font-weight: bold;
 }
 
 
@@ -112,6 +120,10 @@ body {
   .navbar-header {
     font-size: 1.1rem;
   }
+
+  .hidden-lg {
+    display: none!important;
+  }
   
   .header-dark {
     font-size: 1.25em;
@@ -132,19 +144,22 @@ body {
 
   #sidebar-wrapper {
     position: fixed;
-    max-width: 60vw;
-    min-width: 60vw;
+    max-width: 65vw;
+    min-width: 65vw;
     margin-left: 0;
     z-index: 1000;
   }
 
   #wrapper.toggled #sidebar-wrapper {
-    margin-left: -60vw;
+    margin-left: -65vw;
   }
 
 }
 
 @media (min-width: 768px) {
+  .hidden-sm {
+    display: none!important;
+  }
   #filters-toggle, #filters-mobile {
     display: none;
   }

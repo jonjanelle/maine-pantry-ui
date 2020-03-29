@@ -94,15 +94,18 @@
 
   <script id="navbar-template" type="text/x-handlebars-template">
     <nav class="navbar navbar-expand-lg navbar-custom navbar-dark">
-      <div class="navbar-header text-light">Maine Food Support</div>
+      <div class="navbar-header text-light hidden-sm">Maine Food Support</div>
       <div>
         <button class="btn btn-primary" id="filters-toggle" aria-label="View filters">
-          <i class="material-icons toggle-icon" title="Toggle filters">tune</i>
+            <i class="material-icons toggle-icon" title="Toggle filters">tune</i><br>
+            <div class="toggle-label">filter</div>
         </button>
         <button class="btn btn-primary" id="menu-toggle" aria-label="Toggle list view">
           <i class="material-icons toggle-icon" title="Toggle list view">compare_arrows</i>
+          <div class="toggle-label">list</div>
         </button>
       </div>
+      <div class="navbar-header text-light hidden-lg">Maine Food Support</div>
     </nav>
   </script>
 
