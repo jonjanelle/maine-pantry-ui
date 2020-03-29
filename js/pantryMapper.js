@@ -3,7 +3,7 @@ class PantryMapper {
         this.apiEndpoint = apiEndpoint;
         this.map = map;
         this.refreshInterval = null;
-        this.intervalDelay = 60000; //Refresh data every x ms
+        this.intervalDelay = 600000; //Refresh data every x ms
         this.data = [];
         this.filteredData = [];
         this._getData = this._getData.bind(this);
@@ -93,7 +93,7 @@ class PantryMapper {
     _getMarkerPopupHtml(pantryInfo) {
         return `<span style="font-size:1.1rem">${pantryInfo.Name}</span><br>
         <hr style="margin-top: 0; margin-bottom: 4px;">
-        <small><b>Phone: </b>${pantryInfo.Phone}}</small><br>
+        <small><b>Phone: </b>${pantryInfo.Phone}</small><br>
         <small><b>Website: </b><a href='${pantryInfo.Category}' target='_blank'>${pantryInfo.WebLink}</a></small><br>
         <small><b>Address: </b>${pantryInfo.Address}</small><br>
         <small><b>Hours: </b>${pantryInfo.HoursOfOperation}</small>`;

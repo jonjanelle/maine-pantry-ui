@@ -110,11 +110,12 @@ body {
     margin-left: 12px;
   }
   .navbar-header {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
   }
   
   .header-dark {
-    font-size: 1.5em;
+    font-size: 1.25em;
+    margin-bottom: 0;
   }
   .main-content {
     padding: 0;

@@ -8,7 +8,6 @@ class DomEventHandlers {
         this._setFilters();
         this._prevWidth = window.innerHeight;
         this._setResizeHandler();
-
     }
 
     setSelectOptions(domId, optionSet) {
@@ -83,7 +82,7 @@ class DomEventHandlers {
                 townOptions = [...new Set(this.pantryMapper.data.map(d => d.Town))].sort();
             }
         
-            setSelectOptions("town-select", townOptions);
+            this.setSelectOptions("town-select", townOptions);
             this.pantryMapper.setCountyFilter(selectedCounty);
         });
 
